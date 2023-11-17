@@ -6,6 +6,8 @@ import DisplayTime from "../generic/DisplayTime.js";
 import DisplayRounds from "../generic/DisplayRounds.js";
 import { formatTime } from "../../utils/helpers.js";
 import { faPlay, faPause, faRedo, faForward, faStepForward } from '@fortawesome/free-solid-svg-icons';
+import useTimeInput from "../../hooks/useTimeInput";
+import useRoundsInput from "../../hooks/useRoundsInput";
 
 
 const XY = () => {
@@ -13,12 +15,12 @@ const XY = () => {
     const defaultTime = 90;
     const defaultRounds = 10;
 
+    //using the custom hook for handling time input
+    const { inputMinutes, inputSeconds, targetTime, handleMinutesChange, handleSecondsChange } = useTimeInput('01', '30');
+    //using the custom hook for handling rounds input
+    const { rounds, handleRoundsChange } = useRoundsInput('10');
     //state to keep track of time in seconds
     const [time, setTime] = useState(defaultTime);
-    //state to keep track of user input in MM:SS format
-    const [inputTime, setInputTime] = useState('01:30');
-    //state to keep track of the total number of rounds
-    const [rounds, setRounds] = useState(defaultRounds.toString());
     //state to keep track of the current round
     const [currentRound, setCurrentRound] = useState(1);
     //state to determine if the timer is running
@@ -40,7 +42,7 @@ const XY = () => {
             const totalRounds = parseInt(rounds, 10) || defaultRounds;
             if (nextRound <= totalRounds) {
                 setCurrentRound(nextRound);
-                setTime(parseTime(inputTime) || defaultTime);
+                setTime(targetTime || defaultTime);
             } else {
                 setIsRunning(false);
             }
@@ -48,12 +50,12 @@ const XY = () => {
 
         //clear the interval when the component unmounts or timer stops
         return () => clearInterval(interval);
-    }, [isRunning, time, currentRound, rounds, inputTime, defaultTime, defaultRounds]);
+    }, [isRunning, time, currentRound, rounds, targetTime, defaultTime, defaultRounds]);
 
     //function to start or pause the timer
     const startPauseTimer = () => {
         if (!isRunning && time === 0 && currentRound === (parseInt(rounds, 10) || defaultRounds)) {
-            setTime(parseTime(inputTime) || defaultTime);
+            setTime(targetTime || defaultTime);
             setCurrentRound(1);
         }
         setIsRunning(!isRunning);
@@ -62,7 +64,7 @@ const XY = () => {
     //function to reset the timer
     const resetTimer = () => {
         setIsRunning(false);
-        setTime(parseTime(inputTime) || defaultTime);
+        setTime(targetTime || defaultTime);
         setCurrentRound(1);
     };
 
@@ -82,49 +84,22 @@ const XY = () => {
         setIsRunning(false);
     };
 
-    //function to parse MM:SS time format to seconds
-    const parseTime = (input) => {
-        const [minutes = '0', seconds = '0'] = input.split(':');
-        return parseInt(minutes, 10) * 60 + parseInt(seconds, 10);
-    };
-
-    //handle changes in X input
-    const handleTimeChange = (e) => {
-        const value = e.target.value;
-        const segments = value.split(':');
-        if (segments.length <= 2) {
-            const minSegment = segments[0];
-            const secSegment = segments[1] || '';
-            if (minSegment.length <= 2 && secSegment.length <= 2) {
-                setInputTime(value);
-            }
-        }
-        //check if input is empty and default to '00:00'
-        else if (!value) {
-            setInputTime('00:00');
-        }
-    };
-
-    //handle changes in Y input (rounds)
-    const handleRoundsChange = (e) => {
-        const value = e.target.value;
-        setRounds(value);
-        if (value === '') {
-            setCurrentRound(1);
-        }
-    };
-
     //render timer and control buttons
     return (
         <div>
             <Panel>
-                <Input label="Set Time" value={inputTime} onChange={handleTimeChange} />
-                <Input label="Set Rounds" value={rounds} onChange={handleRoundsChange} />
+                Set Time:
+                <div className="input-container">
+                    <Input type="number" label="m&nbsp;" value={inputMinutes} onChange={handleMinutesChange} maxLength={2} max={60} />
+                    <Input type="number" label="s" value={inputSeconds} onChange={handleSecondsChange} maxLength={2} max={59} />
+                </div>
+                Set Rounds:
+                <Input type="number" value={rounds} onChange={handleRoundsChange} />
             </Panel>
             <DisplayTime>
                 {formatTime(time)}
             </DisplayTime>
-            <DisplayRounds text={!isRunning && time === 0 && currentRound === (parseInt(rounds, 10) || defaultRounds) ? `Total Rounds: ${parseInt(rounds, 10) || defaultRounds}` : `Round ${currentRound} of ${parseInt(rounds, 10) || defaultRounds}`} />
+            <DisplayRounds text={!isRunning && time === 0 && currentRound === (parseInt(rounds, 10) || defaultRounds) ? `Total Rounds: ${rounds}` : `Round ${currentRound} of ${rounds}`} />
             <Panel className="control-panel">
                 <div className="start-button-container">
                     <Button className="button-start" label={isRunning ? "Pause" : "Start"} icon={isRunning ? faPause : faPlay} onClick={startPauseTimer} />
