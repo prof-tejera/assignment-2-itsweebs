@@ -61,7 +61,7 @@ const Stopwatch = () => {
                     <Input type="number" label="s" value={inputSeconds} onChange={handleSecondsChange} maxLength={2} max={59} />
                 </div>
             </Panel>
-            <DisplayTime>
+            <DisplayTime className={time === calculatedTime ? 'time-finished' : ''}>
                 {formatTime(time)}
             </DisplayTime>
             <Panel className="control-panel">

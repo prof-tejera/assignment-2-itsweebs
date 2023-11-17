@@ -23,8 +23,8 @@ input {
 
 .input-label {
     order: 2;
-    font-size: 14px;
-    color: #c8c8c8;
+    font-size: 12px;
+    color: #666;
 }
 
 .input-field {

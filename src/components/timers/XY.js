@@ -11,9 +11,6 @@ import useRoundsInput from "../../hooks/useRoundsInput";
 
 
 const XY = () => {
-    //define default values
-    const defaultTime = 90;
-    const defaultRounds = 10;
 
     //using the custom hook for handling time input
     const { inputMinutes, inputSeconds, calculatedTime, handleMinutesChange, handleSecondsChange } = useTimeInput('01', '30');
@@ -26,10 +23,11 @@ const XY = () => {
     //state to determine if the timer is running
     const [isRunning, setIsRunning] = useState(false);
 
+    //adjust display time as user input changes
     useEffect(() => {
         setTime(calculatedTime);
     }, [calculatedTime]);
-    
+
     //handle timer logic
     useEffect(() => {
         let interval;
@@ -43,10 +41,10 @@ const XY = () => {
         //if time runs out and there are more rounds to go, move to the next round, stop timer when all rounds are complete
         else if (isRunning && time === 0) {
             const nextRound = currentRound + 1;
-            const totalRounds = parseInt(rounds, 10) || defaultRounds;
+            const totalRounds = parseInt(rounds, 10);
             if (nextRound <= totalRounds) {
                 setCurrentRound(nextRound);
-                setTime(calculatedTime || defaultTime);
+                setTime(calculatedTime);
             } else {
                 setIsRunning(false);
             }
@@ -54,12 +52,12 @@ const XY = () => {
 
         //clear the interval when the component unmounts or timer stops
         return () => clearInterval(interval);
-    }, [isRunning, time, currentRound, rounds, calculatedTime, defaultTime, defaultRounds]);
+    }, [isRunning, time, currentRound, rounds, calculatedTime]);
 
     //function to start or pause the timer
     const startPauseTimer = () => {
-        if (!isRunning && time === 0 && currentRound === (parseInt(rounds, 10) || defaultRounds)) {
-            setTime(calculatedTime || defaultTime);
+        if (!isRunning && time === 0 && currentRound === (parseInt(rounds, 10))) {
+            setTime(calculatedTime);
             setCurrentRound(1);
         }
         setIsRunning(!isRunning);
@@ -68,13 +66,13 @@ const XY = () => {
     //function to reset the timer
     const resetTimer = () => {
         setIsRunning(false);
-        setTime(calculatedTime || defaultTime);
+        setTime(calculatedTime);
         setCurrentRound(1);
     };
 
     //function to forward to end of round
     const fastForwardTimer = () => {
-        if (currentRound < (parseInt(rounds, 10) || defaultRounds)) {
+        if (currentRound < (parseInt(rounds, 10))) {
             setTime(0);
         } else {
             setIsRunning(false);
@@ -84,7 +82,7 @@ const XY = () => {
     //function to end the timer
     const endTimer = () => {
         setTime(0);
-        setCurrentRound(parseInt(rounds, 10) || defaultRounds);
+        setCurrentRound(parseInt(rounds, 10));
         setIsRunning(false);
     };
 
@@ -100,10 +98,10 @@ const XY = () => {
                 Set Rounds:
                 <Input type="number" value={rounds} onChange={handleRoundsChange} />
             </Panel>
-            <DisplayTime>
+            <DisplayTime className={!isRunning && time === 0 && currentRound === parseInt(rounds, 10) ? 'time-finished' : ''}>
                 {formatTime(time)}
             </DisplayTime>
-            <DisplayRounds text={!isRunning && time === 0 && currentRound === (parseInt(rounds, 10) || defaultRounds) ? `Total Rounds: ${rounds}` : `Round ${currentRound} of ${rounds}`} />
+            <DisplayRounds text={!isRunning && time === 0 && currentRound === (parseInt(rounds, 10)) ? `Total Rounds: ${rounds}` : `Round ${currentRound} of ${rounds}`} />
             <Panel className="control-panel">
                 <div className="start-button-container">
                     <Button className="button-start" label={isRunning ? "Pause" : "Start"} icon={isRunning ? faPause : faPlay} onClick={startPauseTimer} />

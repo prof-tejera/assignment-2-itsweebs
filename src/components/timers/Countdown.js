@@ -68,7 +68,7 @@ const Countdown = () => {
                     <Input type="number" label="s" value={inputSeconds} onChange={handleSecondsChange} maxLength={2} max={59} />
                 </div>
             </Panel>
-            <DisplayTime>
+            <DisplayTime className={time === 0 ? 'time-finished' : ''}>
                 {formatTime(time)}
             </DisplayTime>
             <Panel className="control-panel">
