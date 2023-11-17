@@ -12,11 +12,16 @@ const initialTime = parseInt('02', 10) * 60 + parseInt('30', 10);
 
 const Countdown = () => {
     //using the custom hook for handling time input
-    const { inputMinutes, inputSeconds, targetTime, handleMinutesChange, handleSecondsChange } = useTimeInput('02', '30');
+    const { inputMinutes, inputSeconds, calculatedTime, handleMinutesChange, handleSecondsChange } = useTimeInput('02', '30');
     //state to keep track of time
     const [time, setTime] = useState(initialTime);
     //state to determine if timer is running
     const [isRunning, setIsRunning] = useState(false);
+
+    //adjust display time as user input changes
+    useEffect(() => {
+        setTime(calculatedTime);
+    }, [calculatedTime]);
 
     //handle countdown logic
     useEffect(() => {
@@ -44,7 +49,7 @@ const Countdown = () => {
     //function to reset the timer
     const resetTimer = () => {
         setIsRunning(false);
-        setTime(targetTime);
+        setTime(calculatedTime);
     };
 
     //function to end the timer

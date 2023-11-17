@@ -16,16 +16,20 @@ const XY = () => {
     const defaultRounds = 10;
 
     //using the custom hook for handling time input
-    const { inputMinutes, inputSeconds, targetTime, handleMinutesChange, handleSecondsChange } = useTimeInput('01', '30');
+    const { inputMinutes, inputSeconds, calculatedTime, handleMinutesChange, handleSecondsChange } = useTimeInput('01', '30');
     //using the custom hook for handling rounds input
     const { rounds, handleRoundsChange } = useRoundsInput('10');
-    //state to keep track of time in seconds
-    const [time, setTime] = useState(defaultTime);
+    //state to keep track of time
+    const [time, setTime] = useState(calculatedTime);
     //state to keep track of the current round
     const [currentRound, setCurrentRound] = useState(1);
     //state to determine if the timer is running
     const [isRunning, setIsRunning] = useState(false);
 
+    useEffect(() => {
+        setTime(calculatedTime);
+    }, [calculatedTime]);
+    
     //handle timer logic
     useEffect(() => {
         let interval;
@@ -42,7 +46,7 @@ const XY = () => {
             const totalRounds = parseInt(rounds, 10) || defaultRounds;
             if (nextRound <= totalRounds) {
                 setCurrentRound(nextRound);
-                setTime(targetTime || defaultTime);
+                setTime(calculatedTime || defaultTime);
             } else {
                 setIsRunning(false);
             }
@@ -50,12 +54,12 @@ const XY = () => {
 
         //clear the interval when the component unmounts or timer stops
         return () => clearInterval(interval);
-    }, [isRunning, time, currentRound, rounds, targetTime, defaultTime, defaultRounds]);
+    }, [isRunning, time, currentRound, rounds, calculatedTime, defaultTime, defaultRounds]);
 
     //function to start or pause the timer
     const startPauseTimer = () => {
         if (!isRunning && time === 0 && currentRound === (parseInt(rounds, 10) || defaultRounds)) {
-            setTime(targetTime || defaultTime);
+            setTime(calculatedTime || defaultTime);
             setCurrentRound(1);
         }
         setIsRunning(!isRunning);
@@ -64,7 +68,7 @@ const XY = () => {
     //function to reset the timer
     const resetTimer = () => {
         setIsRunning(false);
-        setTime(targetTime || defaultTime);
+        setTime(calculatedTime || defaultTime);
         setCurrentRound(1);
     };
 

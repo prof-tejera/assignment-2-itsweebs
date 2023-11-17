@@ -1,24 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const useTimeInput = (initialMinutes = '00', initialSeconds = '00') => {
     const [inputMinutes, setInputMinutes] = useState(initialMinutes);
     const [inputSeconds, setInputSeconds] = useState(initialSeconds);
-    const [targetTime, setTargetTime] = useState(0);
-
-    useEffect(() => {
-        const newTargetTime = (parseInt(inputMinutes, 10) * 60 + parseInt(inputSeconds, 10)) || 0;
-        setTargetTime(newTargetTime);
-    }, [inputMinutes, inputSeconds]);
+    const [calculatedTime, setCalculatedTime] = useState(parseInt(initialMinutes, 10) * 60 + parseInt(initialSeconds, 10));
 
     const handleMinutesChange = (e) => {
-        setInputMinutes(e.target.value.slice(0, 2));
+        const newMinutes = e.target.value.slice(0, 2);
+        setInputMinutes(newMinutes);
+        const newCalculatedTime = parseInt(newMinutes, 10) * 60 + parseInt(inputSeconds, 10);
+        setCalculatedTime(newCalculatedTime);
     };
 
     const handleSecondsChange = (e) => {
-        setInputSeconds(e.target.value.slice(0, 2));
+        const newSeconds = e.target.value.slice(0, 2);
+        setInputSeconds(newSeconds);
+        const newCalculatedTime = parseInt(inputMinutes, 10) * 60 + parseInt(newSeconds, 10);
+        setCalculatedTime(newCalculatedTime);
     };
 
-    return { inputMinutes, inputSeconds, targetTime, handleMinutesChange, handleSecondsChange };
+    return { inputMinutes, inputSeconds, calculatedTime, handleMinutesChange, handleSecondsChange };
 };
 
 export default useTimeInput;

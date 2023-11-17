@@ -10,7 +10,7 @@ import useTimeInput from "../../hooks/useTimeInput";
 
 const Stopwatch = () => {
     //using the custom hook for handling time input
-    const { inputMinutes, inputSeconds, targetTime, handleMinutesChange, handleSecondsChange } = useTimeInput('02', '30');
+    const { inputMinutes, inputSeconds, calculatedTime, handleMinutesChange, handleSecondsChange } = useTimeInput('02', '30');
     //state to keep track of time
     const [time, setTime] = useState(0);
     //state to determine if timer is running
@@ -21,18 +21,18 @@ const Stopwatch = () => {
         let interval;
 
         //if timer is running and hasn't reached target time, start stopwatch
-        if (isRunning && time < targetTime) {
+        if (isRunning && time < calculatedTime) {
             interval = setInterval(() => {
                 setTime((prevTime) => prevTime + 1); //increase time by 1 every second
             }, 1000);
-        } else if (time === targetTime) {
+        } else if (time === calculatedTime) {
             //if time reaches target time, stop the timer
             setIsRunning(false);
         }
 
         //clear interval when component unmounts or when it's not running
         return () => clearInterval(interval);
-    }, [isRunning, time, targetTime]);
+    }, [isRunning, time, calculatedTime]);
 
     //function to start or pause the timer
     const startPauseTimer = () => {
@@ -47,7 +47,7 @@ const Stopwatch = () => {
 
     //function to end the timer
     const endTimer = () => {
-        setTime(targetTime);
+        setTime(calculatedTime);
         setIsRunning(false);
     };
 
