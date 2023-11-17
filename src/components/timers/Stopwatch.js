@@ -9,12 +9,12 @@ import useTimeInput from "../../hooks/useTimeInput";
 
 
 const Stopwatch = () => {
+    //using the custom hook for handling time input
+    const { inputMinutes, inputSeconds, targetTime, handleMinutesChange, handleSecondsChange } = useTimeInput('02', '30');
     //state to keep track of time
     const [time, setTime] = useState(0);
     //state to determine if timer is running
     const [isRunning, setIsRunning] = useState(false);
-    //using the custom hook for handling time input
-    const { inputMinutes, inputSeconds, targetTime, handleMinutesChange, handleSecondsChange } = useTimeInput('02', '30');
 
     //handle stopwatch logic
     useEffect(() => {
@@ -55,11 +55,11 @@ const Stopwatch = () => {
     return (
         <div>
             <Panel>
-            Set Time:
-            <div className="input-container">
-            <Input type="number" label="m&nbsp;" value={inputMinutes} onChange={handleMinutesChange} maxLength={2} max={60} />
-            <Input type="number" label="s" value={inputSeconds} onChange={handleSecondsChange} maxLength={2} max={59} />
-            </div>
+                Set Time:
+                <div className="input-container">
+                    <Input type="number" label="m&nbsp;" value={inputMinutes} onChange={handleMinutesChange} maxLength={2} max={60} />
+                    <Input type="number" label="s" value={inputSeconds} onChange={handleSecondsChange} maxLength={2} max={59} />
+                </div>
             </Panel>
             <DisplayTime>
                 {formatTime(time)}

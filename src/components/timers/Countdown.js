@@ -5,30 +5,18 @@ import Button from "../generic/Button.js";
 import DisplayTime from "../generic/DisplayTime.js";
 import { formatTime } from "../../utils/helpers.js";
 import { faPlay, faPause, faRedo, faStepForward } from '@fortawesome/free-solid-svg-icons';
+import useTimeInput from "../../hooks/useTimeInput";
 
+//calculate initial time from default values
+const initialTime = parseInt('02', 10) * 60 + parseInt('30', 10);
 
 const Countdown = () => {
+    //using the custom hook for handling time input
+    const { inputMinutes, inputSeconds, targetTime, handleMinutesChange, handleSecondsChange } = useTimeInput('02', '30');
     //state to keep track of time
-    const [time, setTime] = useState(150); //default 2m 30s
+    const [time, setTime] = useState(initialTime);
     //state to determine if timer is running
     const [isRunning, setIsRunning] = useState(false);
-    //state to store user input in MM:SS format
-    const [inputTime, setInputTime] = useState('02:30');
-    //state to keep track of the target time in seconds
-    const [targetTime, setTargetTime] = useState(150); //default 2m 30s
-    //state to determine if end button was clicked
-    const [endClicked, setEndClicked] = useState(false);
-
-    //update targetTime and setTime when user inputTime changes
-    useEffect(() => {
-        //split inputTime into minutes and seconds, then calculate the new target time in seconds
-        const [minutes, seconds] = inputTime.split(':').map(val => parseInt(val, 10));
-        const newTargetTime = (minutes * 60 + seconds) || 0;
-        setTargetTime(newTargetTime);
-        if (!isRunning && !endClicked) {
-            setTime(newTargetTime);
-        }
-    }, [inputTime, isRunning, endClicked]);
 
     //handle countdown logic
     useEffect(() => {
@@ -39,20 +27,14 @@ const Countdown = () => {
             interval = setInterval(() => {
                 setTime((prevTime) => prevTime - 1); //decrease time by 1 every second
             }, 1000);
-        } else if (time === 0 || endClicked) {
-            // If time is 0 or end button was clicked, stop the timer
+        } else if (time === 0) {
+            // If time is 0, stop the timer
             setIsRunning(false);
         }
 
         //clear interval when component unmounts or timer is not running
         return () => clearInterval(interval);
-    }, [isRunning, time, endClicked]);
-
-    //function to handle input changes
-    const handleInputChange = (e) => {
-        setInputTime(e.target.value);
-        setEndClicked(false);
-    };
+    }, [isRunning, time]);
 
     //function to start or pause the timer
     const startPauseTimer = () => {
@@ -63,21 +45,23 @@ const Countdown = () => {
     const resetTimer = () => {
         setIsRunning(false);
         setTime(targetTime);
-        setEndClicked(false);
     };
 
     //function to end the timer
     const endTimer = () => {
         setTime(0);
         setIsRunning(false);
-        setEndClicked(true);
     };
 
     //render timer and control buttons
     return (
         <div>
             <Panel>
-                <Input label="Set Time" value={inputTime} onChange={handleInputChange} />
+                Set Time:
+                <div className="input-container">
+                    <Input type="number" label="m&nbsp;" value={inputMinutes} onChange={handleMinutesChange} maxLength={2} max={60} />
+                    <Input type="number" label="s" value={inputSeconds} onChange={handleSecondsChange} maxLength={2} max={59} />
+                </div>
             </Panel>
             <DisplayTime>
                 {formatTime(time)}
