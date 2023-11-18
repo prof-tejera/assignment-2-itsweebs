@@ -3,6 +3,7 @@ import Panel from "../generic/Panel.js";
 import Input from "../generic/Input.js";
 import Button from "../generic/Button.js";
 import DisplayTime from "../generic/DisplayTime.js";
+import DisplayText from "../generic/DisplayText.js";
 import { formatTime } from "../../utils/helpers.js";
 import { faPlay, faPause, faRedo, faStepForward } from '@fortawesome/free-solid-svg-icons';
 import useTimeInput from "../../hooks/useTimeInput";
@@ -71,6 +72,7 @@ const Countdown = () => {
             <DisplayTime className={time === 0 ? 'time-finished' : ''}>
                 {formatTime(time)}
             </DisplayTime>
+            <DisplayText text={!isRunning && time === 0 ? 'Done!' : ''} />
             <Panel className="control-panel">
                 <div className="start-button-container">
                     <Button className="button-start" label={isRunning ? "Pause" : "Start"} icon={isRunning ? faPause : faPlay} onClick={startPauseTimer} />

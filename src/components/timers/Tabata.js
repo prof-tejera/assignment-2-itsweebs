@@ -3,7 +3,7 @@ import Panel from "../generic/Panel.js";
 import Input from "../generic/Input.js";
 import Button from "../generic/Button.js";
 import DisplayTime from "../generic/DisplayTime.js";
-import DisplayRounds from "../generic/DisplayRounds.js";
+import DisplayText from "../generic/DisplayText.js";
 import { formatTime } from "../../utils/helpers.js";
 import { faPlay, faPause, faRedo, faForward, faStepForward } from '@fortawesome/free-solid-svg-icons';
 import useTimeInput from "../../hooks/useTimeInput";
@@ -100,8 +100,10 @@ const Tabata = () => {
                 Set Rounds:
                 <Input type="number" value={rounds} onChange={handleRoundsChange} />
             </Panel>
-            <DisplayTime>{formatTime(remainingTime)}</DisplayTime>
-            <DisplayRounds text={!isRunning && remainingTime === 0 ? `Total Rounds: ${rounds}` : isWorkTime ? `Round ${currentRound} of ${rounds}` : "Rest"} />            <Panel className="control-panel">
+            <DisplayTime className={!isRunning && remainingTime === 0 && currentRound === parseInt(rounds, 10) && !isWorkTime ? 'time-finished' : ''}>
+                {formatTime(remainingTime)}
+            </DisplayTime>
+            <DisplayText text={!isRunning && remainingTime === 0 ? `Done!` : isWorkTime ? `Round ${currentRound} of ${rounds}` : "Rest"} />            <Panel className="control-panel">
                 <div className="start-button-container">
                     <Button className="button-start" label={isRunning ? "Pause" : "Start"} icon={isRunning ? faPause : faPlay} onClick={startPauseTimer} />
                 </div>

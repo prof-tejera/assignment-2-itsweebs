@@ -8,7 +8,7 @@ import Panel from "../components/generic/Panel";
 import Button from "../components/generic/Button";
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import DisplayTime from "../components/generic/DisplayTime";
-import DisplayRounds from "../components/generic/DisplayRounds";
+import DisplayText from "../components/generic/DisplayText";
 import Input from "../components/generic/Input";
 
 
@@ -98,12 +98,12 @@ const Documentation = () => {
           ]}
         />
         <DocumentComponent
-          title="Display Rounds"
-          component={<DisplayRounds text="Round 1 of 2" />}
+          title="Display Text"
+          component={<DisplayText text="Round 1 of 2" />}
           propDocs={[
             {
               prop: "text",
-              description: "Displays the tracked rounds",
+              description: "Displays the tracked rounds, when Tabata is in rest mode or when timer has ended ",
               type: "string",
               defaultValue: "none",
             },

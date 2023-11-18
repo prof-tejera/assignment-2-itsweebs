@@ -3,6 +3,7 @@ import Panel from "../generic/Panel.js";
 import Input from "../generic/Input.js";
 import Button from "../generic/Button.js";
 import DisplayTime from "../generic/DisplayTime.js";
+import DisplayText from "../generic/DisplayText.js";
 import { formatTime } from "../../utils/helpers.js";
 import { faPlay, faPause, faRedo, faStepForward } from '@fortawesome/free-solid-svg-icons';
 import useTimeInput from "../../hooks/useTimeInput";
@@ -15,7 +16,7 @@ const Stopwatch = () => {
     const [time, setTime] = useState(0);
     //state to determine if timer is running
     const [isRunning, setIsRunning] = useState(false);
-
+    
     //handle stopwatch logic
     useEffect(() => {
         let interval;
@@ -64,6 +65,8 @@ const Stopwatch = () => {
             <DisplayTime className={time === calculatedTime ? 'time-finished' : ''}>
                 {formatTime(time)}
             </DisplayTime>
+           <DisplayText text={!isRunning && time === calculatedTime ? 'Done!' : ''} />
+
             <Panel className="control-panel">
                 <div className="start-button-container">
                     <Button className="button-start" label={isRunning ? "Pause" : "Start"} icon={isRunning ? faPause : faPlay} onClick={startPauseTimer} />

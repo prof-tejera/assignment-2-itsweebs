@@ -3,7 +3,7 @@ import Panel from "../generic/Panel.js";
 import Input from "../generic/Input.js";
 import Button from "../generic/Button.js";
 import DisplayTime from "../generic/DisplayTime.js";
-import DisplayRounds from "../generic/DisplayRounds.js";
+import DisplayText from "../generic/DisplayText.js";
 import { formatTime } from "../../utils/helpers.js";
 import { faPlay, faPause, faRedo, faForward, faStepForward } from '@fortawesome/free-solid-svg-icons';
 import useTimeInput from "../../hooks/useTimeInput";
@@ -101,7 +101,7 @@ const XY = () => {
             <DisplayTime className={!isRunning && time === 0 && currentRound === parseInt(rounds, 10) ? 'time-finished' : ''}>
                 {formatTime(time)}
             </DisplayTime>
-            <DisplayRounds text={!isRunning && time === 0 && currentRound === (parseInt(rounds, 10)) ? `Total Rounds: ${rounds}` : `Round ${currentRound} of ${rounds}`} />
+            <DisplayText text={!isRunning && time === 0 && currentRound === (parseInt(rounds, 10)) ? `Done!` : `Round ${currentRound} of ${rounds}`} />
             <Panel className="control-panel">
                 <div className="start-button-container">
                     <Button className="button-start" label={isRunning ? "Pause" : "Start"} icon={isRunning ? faPause : faPlay} onClick={startPauseTimer} />
