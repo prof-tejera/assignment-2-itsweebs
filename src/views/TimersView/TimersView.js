@@ -1,10 +1,10 @@
 import React from "react";
 import "./TimersView.css";
 
-import Stopwatch from "../components/timers/Stopwatch";
-import Countdown from "../components/timers/Countdown";
-import XY from "../components/timers/XY";
-import Tabata from "../components/timers/Tabata";
+import Stopwatch from "../../components/timers/Stopwatch";
+import Countdown from "../../components/timers/Countdown";
+import XY from "../../components/timers/XY";
+import Tabata from "../../components/timers/Tabata";
 
 const TimersView = () => {
   const timers = [
