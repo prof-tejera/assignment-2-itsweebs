@@ -4,12 +4,12 @@ import styled from "styled-components";
 import DocumentComponent from "../components/documentation/DocumentComponent";
 
 import Loading from "../components/generic/Loading";
-import Panel from "../components/generic/Panel";
-import Button from "../components/generic/Button";
+import Panel from "../components/generic/Panel/Panel";
+import Button from "../components/generic/Button/Button";
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
-import DisplayTime from "../components/generic/DisplayTime";
-import DisplayText from "../components/generic/DisplayText";
-import Input from "../components/generic/Input";
+import DisplayTime from "../components/generic/DisplayTime/DisplayTime";
+import DisplayText from "../components/generic/DisplayText/DisplayText";
+import Input from "../components/generic/Input/Input";
 
 
 

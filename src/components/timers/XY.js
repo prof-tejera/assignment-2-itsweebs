@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import Panel from "../generic/Panel.js";
-import Input from "../generic/Input.js";
-import Button from "../generic/Button.js";
-import DisplayTime from "../generic/DisplayTime.js";
-import DisplayText from "../generic/DisplayText.js";
+import Panel from "../generic/Panel/Panel.js";
+import Input from "../generic/Input/Input.js";
+import Button from "../generic/Button/Button.js";
+import DisplayTime from "../generic/DisplayTime/DisplayTime.js";
+import DisplayText from "../generic/DisplayText/DisplayText.js";
 import { formatTime } from "../../utils/helpers.js";
 import { faPlay, faPause, faRedo, faForward, faStepForward } from '@fortawesome/free-solid-svg-icons';
 import useTimeInput from "../../hooks/useTimeInput";

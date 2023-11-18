@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import Panel from "../generic/Panel.js";
-import Input from "../generic/Input.js";
-import Button from "../generic/Button.js";
-import DisplayTime from "../generic/DisplayTime.js";
-import DisplayText from "../generic/DisplayText.js";
+import Panel from "../generic/Panel/Panel.js";
+import Input from "../generic/Input/Input.js";
+import Button from "../generic/Button/Button.js";
+import DisplayTime from "../generic/DisplayTime/DisplayTime.js";
+import DisplayText from "../generic/DisplayText/DisplayText.js";
 import { formatTime } from "../../utils/helpers.js";
 import { faPlay, faPause, faRedo, faForward, faStepForward } from '@fortawesome/free-solid-svg-icons';
 import useTimeInput from "../../hooks/useTimeInput";
@@ -103,7 +103,8 @@ const Tabata = () => {
             <DisplayTime className={!isRunning && remainingTime === 0 && currentRound === parseInt(rounds, 10) && !isWorkTime ? 'time-finished' : ''}>
                 {formatTime(remainingTime)}
             </DisplayTime>
-            <DisplayText text={!isRunning && remainingTime === 0 ? `Done!` : isWorkTime ? `Round ${currentRound} of ${rounds}` : "Rest"} />            <Panel className="control-panel">
+            <DisplayText text={!isRunning && remainingTime === 0 ? `Done!` : isWorkTime ? `Round ${currentRound} of ${rounds}` : "Rest"} />            
+            <Panel className="control-panel">
                 <div className="start-button-container">
                     <Button className="button-start" label={isRunning ? "Pause" : "Start"} icon={isRunning ? faPause : faPlay} onClick={startPauseTimer} />
                 </div>
