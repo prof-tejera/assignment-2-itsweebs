@@ -18,3 +18,4 @@ const WorkoutQueueView = () => {
 
 export default WorkoutQueueView;
 
+//map array and display it

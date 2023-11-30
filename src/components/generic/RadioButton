@@ -1,0 +1,29 @@
+import React from 'react';
+
+const RadioButtons = ({label, timerList, defaultValue, ...props}) => {
+   
+    const radioButton = (timer) => {
+      const timerType = timer.map((i) => {
+        return (
+          <div key={i} id="radio">
+            <input
+              type="radio"
+              id={i}
+              checked={defaultValue === i}
+              {...props}
+            />
+            <label id="radiolabels" htmlFor={i}>{i}</label>
+          </div>
+        );
+      });
+      return timerType;
+    };
+    return (
+      <div id="radio">
+        <label>{label}</label>
+        {radioButton(timerList)}
+      </div>
+    );
+  };
+  
+  export default RadioButtons;
