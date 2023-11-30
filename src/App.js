@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import styled from "styled-components";
-
+import { TimerProvider } from './context/TimerContext';
 import DocumentationView from "./views/DocumentationView/DocumentationView";
 import TimersView from "./views/TimersView/TimersView";
 import AddTimerView from "./views/AddTimersView/AddTimersView";
@@ -36,6 +36,7 @@ const Nav = () => {
 
 const App = () => {
   return (
+    <TimerProvider>
     <Container>
       <Router>
         <Nav />
@@ -47,6 +48,7 @@ const App = () => {
         </Routes>
       </Router>
     </Container>
+    </TimerProvider>
   );
 };
 

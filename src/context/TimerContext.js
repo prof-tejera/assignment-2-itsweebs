@@ -5,7 +5,7 @@ const TimerContext = createContext();
 const initialState = {
     timers: [], //store the added timers in an array
     currentTimerIndex: 0,
-    isWorkoutRunning: false, //
+    isWorkoutRunning: false,
 };
 
 const timerReducer = (state, action) => {
@@ -54,4 +54,4 @@ export const TimerProvider = ({ children }) => {
     );
 };
 
-export { TimerContext, TimerProvider };
+export default TimerContext;
