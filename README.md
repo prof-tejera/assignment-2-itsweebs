@@ -53,8 +53,8 @@ As you have noticed this repository is empty. To begin this assignment you must 
 
 ### Deployment Instructions (GH actions)
 
-[Deployment instructions](https://github.com/prof-tejera/react-deployment-code#github-actions)
-URL: (https://prof-tejera.github.io/assignment-2-itsweebs)
+[Deployment instructions](https://github.com/prof-tejera/react-deployment-code#github-actions)<br />
+URL: https://prof-tejera.github.io/assignment-2-itsweebs
 
 ## Bonus
 
