@@ -6,33 +6,8 @@ import { formatTime } from '../../utils/helpers';
 import DisplayTime from '../../components/generic/DisplayTime/DisplayTime';
 import DisplayText from '../../components/generic/DisplayText/DisplayText';
 import Button from '../../components/generic/Button/Button';
-import { faPlay, faPause, faRedo, faStepForward, faStop } from '@fortawesome/free-solid-svg-icons';
-
-//display added timers
-const TimerDisplay = ({ timer, onRemove }) => {
-  return (
-    <div className="timer-display">
-      <div className="timer-type">{timer.type}</div>
-      {timer.type === 'Countdown' || timer.type === 'Stopwatch' ? (
-        <div className="timer-time">{timer.minutes}:{timer.seconds}</div>
-      ) : null}
-      {timer.type === 'XY' ? (
-        <>
-          <div className="timer-time">{timer.minutes}:{timer.seconds}</div>
-          <div className="timer-rounds">Rounds: {timer.rounds}</div>
-        </>
-      ) : null}
-      {timer.type === 'Tabata' ? (
-        <>
-          <div className="timer-work-time">Work: {timer.workMinutes}:{timer.workSeconds}</div>
-          <div className="timer-rest-time">Rest: {timer.restMinutes}:{timer.restSeconds}</div>
-          <div className="timer-rounds">Rounds: {timer.rounds}</div>
-        </>
-      ) : null}
-      <button onClick={() => onRemove(timer.id)}>Remove</button>
-    </div>
-  );
-};
+import { faPlay, faPause, faRedo, faStepForward, faStop, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import './WorkoutQueueView.css'
 
 const WorkoutQueueView = () => {
   const navigate = useNavigate();
@@ -105,27 +80,49 @@ const WorkoutQueueView = () => {
   };
 
   return (
-    <div>
-      <h1>Workout Queue</h1>
-      <DisplayTime className={state.isWorkoutComplete ? 'time-finished' : ''}>
-        {formatTime(remainingTime)}
-      </DisplayTime>
-      <DisplayText text={!state.isWorkoutRunning && remainingTime === 0 && state.timers.length > 0 ? 'Done!' : ''} />
-      <Panel className="control-panel">
-        <div className="start-button-container">
-          <Button className="button-start" label={state.isWorkoutRunning ? "Pause" : "Start"} icon={state.isWorkoutRunning ? faPause : faPlay} onClick={handlePauseResume} disabled={state.isWorkoutComplete} />
+    <div className="container">
+      <div className="workout">
+        <text className="workout-title">Workout</text>
+        <DisplayTime className={state.isWorkoutComplete ? 'time-finished' : ''}>
+          {formatTime(remainingTime)}
+        </DisplayTime>
+        <DisplayText text={!state.isWorkoutRunning && remainingTime === 0 && state.timers.length > 0 ? 'Done!' : ''} />
+        <Panel className="control-panel">
+          <div className="start-button-container">
+            <Button className="button-start" label={state.isWorkoutRunning ? "Pause" : "Start"} icon={state.isWorkoutRunning ? faPause : faPlay} onClick={handlePauseResume} disabled={state.isWorkoutComplete} />
+          </div>
+          <div className="buttons-container">
+            <Button className="button-reset" label="Reset" icon={faRedo} onClick={handleReset} disabled={state.isWorkoutComplete} />
+            <Button className="button-forward" label="Forward" icon={faStepForward} onClick={handleFastForward} disabled={state.isWorkoutComplete} />
+            <Button className="button-end" label="End" icon={faStop} onClick={handleEndWorkout} disabled={state.isWorkoutComplete} />
+          </div>
+        </Panel>
+      </div>
+      <h2>Workout Queue</h2>
+      {
+    state.timers.map((timer) => (
+      <div key={timer.id} className="timer-item">
+        <div className="timer-info">
+          <div className="timer-type">{timer.type}</div>
+          <div className="timer-details">
+            {timer.type !== 'Tabata' && (
+              <span>{timer.minutes}:{(timer.seconds ?? '0').toString().padStart(2, '0')}</span>
+            )}
+            {timer.type === 'Tabata' && (
+              <>
+                <span>Work: {timer.workMinutes}:{timer.workSeconds.padStart(2, '0')}</span>
+                <span>Rest: {timer.restMinutes}:{timer.restSeconds.padStart(2, '0')}</span>
+              </>
+            )}
+            {timer.rounds && <span>Rounds: {timer.rounds}</span>}
+          </div>
         </div>
-        <div className="buttons-container">
-          <Button className="button-reset" label="Reset" icon={faRedo} onClick={handleReset} disabled={state.isWorkoutComplete} />
-          <Button className="button-forward" label="Forward" icon={faStepForward} onClick={handleFastForward} disabled={state.isWorkoutComplete} />
-          <Button className="button-end" label="End" icon={faStop} onClick={handleEndWorkout} disabled={state.isWorkoutComplete} />
-        </div>
-      </Panel>
-      {state.timers.map((timer) => (
-        <TimerDisplay key={timer.id} timer={timer} onRemove={removeTimer} />
-      ))}
-      <button onClick={() => navigate('/add')}>Add Timer</button>
-    </div>
+        <Button className="button-remove" icon={faTrashAlt} onClick={() => removeTimer(timer.id)} />
+      </div>
+    ))
+  }
+  <Button className="button-add" label="Add Timer" onClick={() => navigate('/add')} />
+    </div >
   );
 };
 

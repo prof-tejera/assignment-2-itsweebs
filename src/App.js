@@ -6,9 +6,9 @@ import DocumentationView from "./views/DocumentationView/DocumentationView";
 import TimersView from "./views/TimersView/TimersView";
 import AddTimerView from "./views/AddTimersView/AddTimersView";
 import WorkoutQueueView from "./views/WorkoutQueueView/WorkoutQueueView";
+import './App.css'; 
 
 const Container = styled.div`
-  background: #f0f6fb;
   height: 100vh;
   overflow: auto;
 `;
@@ -18,7 +18,7 @@ const Nav = () => {
     <nav>
       <ul>
       <li>
-          <Link to="/">Workout Queue</Link>
+          <Link to="/">Workout</Link>
         </li>
       <li>
           <Link to="/add">Add Timer</Link>

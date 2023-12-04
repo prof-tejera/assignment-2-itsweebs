@@ -48,3 +48,25 @@
 .button-forward:hover {
     background-color: #02bcdc;
 }
+
+.button-remove {
+    color: black;
+    background-color: #eee;
+}
+
+.button-remove:hover {
+    color: #f8446e;
+    background-color: #eee;
+}
+
+.button-add {
+    background-color: black;
+    color: white;
+    width: 180px;
+    font-size: 20px;
+}
+
+.button-add:hover {
+    background-color: #deff04;
+    color: black;
+}
