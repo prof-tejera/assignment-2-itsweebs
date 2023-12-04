@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TimerContext from '../../context/TimerContext';
 import Panel from '../../components/generic/Panel/Panel';
-import { formatTime } from '../../utils/helpers';
+import { formatTime, calculateRemainingTime } from '../../utils/helpers';
 import DisplayTime from '../../components/generic/DisplayTime/DisplayTime';
 import DisplayText from '../../components/generic/DisplayText/DisplayText';
 import Button from '../../components/generic/Button/Button';
@@ -17,32 +17,17 @@ const WorkoutQueueView = () => {
 
   //calculate initial total workout time based on timers in the queue
   useEffect(() => {
-    const total = state.timers.reduce((acc, timer) => {
-      let timerSeconds = 0;
-      switch (timer.type) {
-        case 'Countdown':
-        case 'Stopwatch':
-          //simple calculation for timers with minutes and seconds
-          timerSeconds = (parseInt(timer.minutes, 10) * 60) + parseInt(timer.seconds, 10);
-          break;
-        case 'XY':
-          //for XY timer, multiply the time by the number of rounds
-          timerSeconds = ((parseInt(timer.minutes, 10) * 60) + parseInt(timer.seconds, 10)) * parseInt(timer.rounds, 10);
-          break;
-        case 'Tabata':
-          //for Tabata, calculate work and rest time separately and multiply by rounds
-          const workTime = (parseInt(timer.workMinutes, 10) * 60) + parseInt(timer.workSeconds, 10);
-          const restTime = (parseInt(timer.restMinutes, 10) * 60) + parseInt(timer.restSeconds, 10);
-          timerSeconds = (workTime + restTime) * parseInt(timer.rounds, 10);
-          break;
-        default:
-          break;
-      }
-      return acc + timerSeconds;
-    }, 0);
+    const total = calculateRemainingTime(state.timers);
     setInitialTotalTime(total);
     setRemainingTime(total);
   }, [state.timers]);
+
+
+  //update remaining time when the current timer index changes
+  useEffect(() => {
+    const newRemainingTime = calculateRemainingTime(state.timers.slice(state.currentTimerIndex));
+    setRemainingTime(newRemainingTime);
+  }, [state.currentTimerIndex, state.timers]);
 
   //update remaining time if workout is running
   useEffect(() => {
@@ -86,7 +71,7 @@ const WorkoutQueueView = () => {
         <DisplayTime className={state.isWorkoutComplete ? 'time-finished' : ''}>
           {formatTime(remainingTime)}
         </DisplayTime>
-        <DisplayText text={!state.isWorkoutRunning && remainingTime === 0 && state.timers.length > 0 ? 'Done!' : ''} />
+        <DisplayText className="additional-text" text={!state.isWorkoutRunning && remainingTime === 0 && state.timers.length > 0 ? 'Done!' : ''} />
         <Panel className="control-panel">
           <div className="start-button-container">
             <Button className="button-start" label={state.isWorkoutRunning ? "Pause" : "Start"} icon={state.isWorkoutRunning ? faPause : faPlay} onClick={handlePauseResume} disabled={state.isWorkoutComplete} />
@@ -100,28 +85,28 @@ const WorkoutQueueView = () => {
       </div>
       <h2>Workout Queue</h2>
       {
-    state.timers.map((timer) => (
-      <div key={timer.id} className="timer-item">
-        <div className="timer-info">
-          <div className="timer-type">{timer.type}</div>
-          <div className="timer-details">
-            {timer.type !== 'Tabata' && (
-              <span>{timer.minutes}:{(timer.seconds ?? '0').toString().padStart(2, '0')}</span>
-            )}
-            {timer.type === 'Tabata' && (
-              <>
-                <span>Work: {timer.workMinutes}:{timer.workSeconds.padStart(2, '0')}</span>
-                <span>Rest: {timer.restMinutes}:{timer.restSeconds.padStart(2, '0')}</span>
-              </>
-            )}
-            {timer.rounds && <span>Rounds: {timer.rounds}</span>}
+        state.timers.map((timer) => (
+          <div key={timer.id} className="timer-item">
+            <div className="timer-info">
+              <div className="timer-type">{timer.type}</div>
+              <div className="timer-details">
+                {timer.type !== 'Tabata' && (
+                  <span>{timer.minutes}:{(timer.seconds ?? '0').toString().padStart(2, '0')}</span>
+                )}
+                {timer.type === 'Tabata' && (
+                  <>
+                    <span>Work: {timer.workMinutes}:{timer.workSeconds.padStart(2, '0')}</span>
+                    <span>Rest: {timer.restMinutes}:{timer.restSeconds.padStart(2, '0')}</span>
+                  </>
+                )}
+                {timer.rounds && <span>Rounds: {timer.rounds}</span>}
+              </div>
+            </div>
+            <Button className="button-remove" icon={faTrashAlt} onClick={() => removeTimer(timer.id)} />
           </div>
-        </div>
-        <Button className="button-remove" icon={faTrashAlt} onClick={() => removeTimer(timer.id)} />
-      </div>
-    ))
-  }
-  <Button className="button-add-timer" label="Add Timer" onClick={() => navigate('/add')} />
+        ))
+      }
+      <Button className="button-add-timer" label="Add Timer" onClick={() => navigate('/add')} />
     </div >
   );
 };

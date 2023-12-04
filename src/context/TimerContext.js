@@ -1,4 +1,5 @@
 import { createContext, useReducer } from 'react';
+import { calculateTimerTime } from '../utils/helpers';
 
 const TimerContext = createContext();
 
@@ -35,18 +36,25 @@ const timerReducer = (state, action) => {
                 isWorkoutRunning: false,
                 isWorkoutComplete: false,
             };
-        case 'NEXT_TIMER': //move to the next timer in sequence, end workout if the timer is last in sequence
-            if (state.currentTimerIndex === state.timers.length - 1) {
+        case 'NEXT_TIMER': //move to the next timer in sequence, end workout if the timer is last in sequence, adjust workout time as needed
+            if (state.currentTimerIndex < state.timers.length - 1) {
+                const currentTimerTime = calculateTimerTime(state.timers[state.currentTimerIndex]);
+                const newRemainingTime = state.remainingTime - currentTimerTime;
                 return {
                     ...state,
-                    isWorkoutRunning: false,
+                    currentTimerIndex: state.currentTimerIndex + 1,
+                    remainingTime: newRemainingTime > 0 ? newRemainingTime : 0,
                 };
             } else {
                 return {
                     ...state,
-                    currentTimerIndex: state.currentTimerIndex + 1,
+                    remainingTime: 0,
+                    isWorkoutRunning: false,
+                    isWorkoutComplete: true,
                 };
             }
+
+
         case 'END_WORKOUT': //end the workout
             return {
                 ...state,
