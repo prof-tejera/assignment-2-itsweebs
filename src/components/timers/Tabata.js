@@ -103,7 +103,7 @@ const Tabata = () => {
             <DisplayTime className={!isRunning && remainingTime === 0 && currentRound === parseInt(rounds, 10) && !isWorkTime ? 'time-finished' : ''}>
                 {formatTime(remainingTime)}
             </DisplayTime>
-            <DisplayText text={!isRunning && remainingTime === 0 ? `Done!` : isWorkTime ? `Round ${currentRound} of ${rounds}` : "Rest"} />            
+            <DisplayText className="additional-text" text={!isRunning && remainingTime === 0 ? `Done!` : isWorkTime ? `Round ${currentRound} of ${rounds}` : "Rest"} />            
             <Panel className="control-panel">
                 <div className="start-button-container">
                     <Button className="button-start" label={isRunning ? "Pause" : "Start"} icon={isRunning ? faPause : faPlay} onClick={startPauseTimer} />

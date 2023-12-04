@@ -101,7 +101,7 @@ const XY = () => {
             <DisplayTime className={!isRunning && time === 0 && currentRound === parseInt(rounds, 10) ? 'time-finished' : ''}>
                 {formatTime(time)}
             </DisplayTime>
-            <DisplayText text={!isRunning && time === 0 && currentRound === (parseInt(rounds, 10)) ? `Done!` : `Round ${currentRound} of ${rounds}`} />
+            <DisplayText className="additional-text" text={!isRunning && time === 0 && currentRound === (parseInt(rounds, 10)) ? `Done!` : `Round ${currentRound} of ${rounds}`} />
             <Panel className="control-panel">
                 <div className="start-button-container">
                     <Button className="button-start" label={isRunning ? "Pause" : "Start"} icon={isRunning ? faPause : faPlay} onClick={startPauseTimer} />

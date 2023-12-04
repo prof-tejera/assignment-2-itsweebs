@@ -82,7 +82,7 @@ const WorkoutQueueView = () => {
   return (
     <div className="container">
       <div className="workout">
-        <text className="workout-title">Workout</text>
+        <DisplayText className="workout-title" text="Workout" />
         <DisplayTime className={state.isWorkoutComplete ? 'time-finished' : ''}>
           {formatTime(remainingTime)}
         </DisplayTime>

@@ -102,10 +102,12 @@ const AddTimerView = () => {
               </>
             )}
             {showRoundsInput && (
-              <div className="input-container">
+              <>
                 Set Rounds:
-                <Input type="number" label="Rounds" value={rounds} onChange={handleRoundsChange} />
-              </div>
+                <div className="input-container">
+                  <Input type="number" label="Rounds" value={rounds} onChange={handleRoundsChange} />
+                </div>
+              </>
             )}
           </Panel>
         </div>

@@ -1,9 +1,9 @@
 import React from 'react';
 import "./DisplayText.css";
 
-const DisplayText = ({ text }) => {
+const DisplayText = ({ text, className }) => {
   return (
-    <div className='additional-text'>
+    <div className={className}>
       {text}
     </div>
   );
