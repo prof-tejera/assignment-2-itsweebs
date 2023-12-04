@@ -1,6 +1,7 @@
 import React from 'react';
 
-const RadioButtons = ({ label, timerList, defaultValue, ...props }) => {
+//render a group of radio buttons based on the timerList
+const RadioButtons = ({ label, timerList, activeType, onChange }) => {
   return (
     <div id="radio-group">
       <label>{label}</label>
@@ -10,8 +11,8 @@ const RadioButtons = ({ label, timerList, defaultValue, ...props }) => {
             type="radio"
             id={timer}
             name="timerRadio"
-            checked={defaultValue === timer}
-            {...props}
+            checked={activeType === timer}
+            onChange={() => onChange(timer)}
           />
           <label htmlFor={timer}>{timer}</label>
         </div>
@@ -21,3 +22,4 @@ const RadioButtons = ({ label, timerList, defaultValue, ...props }) => {
 };
 
 export default RadioButtons;
+

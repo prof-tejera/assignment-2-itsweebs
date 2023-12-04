@@ -1,0 +1,33 @@
+/** 
+#radio {
+    display: inline-block;
+  }
+  
+  input[type="radio"] {
+    display: none;
+  }
+  
+  label {
+    cursor: pointer;
+    padding: 8px 24px;
+    background-color: #eeeeee;
+    color: #000000;
+    border: 2px solid #eeeeee;
+    border-radius: 8px;
+    font-size: 16px;
+    margin: 4px;
+    font-weight: 300;
+  }
+  
+  label:hover {
+    background-color: #e8e4ed;
+    color: #8746a8;
+    border-color: #e8e4ed;
+  }
+  
+  input[type="radio"]:checked + label {
+    background-color: #8746a8;
+    color: #fff;
+    border-color: #8746a8;
+  }
+  */

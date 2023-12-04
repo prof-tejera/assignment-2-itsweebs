@@ -1,11 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import TimerContext from '../../context/TimerContext';
-import RadioButtons from '../../components/generic/RadioButton';
+import RadioButtons from '../../components/generic/RadioButton/RadioButton.js';
 import Panel from '../../components/generic/Panel/Panel';
 import Input from '../../components/generic/Input/Input';
 import useTimeInput from '../../hooks/useTimeInput';
 import useRoundsInput from '../../hooks/useRoundsInput';
+import "./AddTimersView.css"
 
 const AddTimerView = () => {
   //using dispatch from TimerContext for state updates
@@ -55,20 +56,20 @@ const AddTimerView = () => {
   return (
     <Panel>
       <h1>Add Timer</h1>
-      <RadioButtons label="Select a timer" timerList={Timers} handleClick={handleTypeChange} />
+      <RadioButtons label="Select a timer" timerList={Timers} activeType={activeType} onChange={handleTypeChange} />
 
       <Panel>
         {isTabata && (
           <>
             Set Work Time:
             <div className="input-container">
-              <Input type="number" label="Work Minutes" value={inputMinutes} onChange={handleMinutesChange} />
-              <Input type="number" label="Work Seconds" value={inputSeconds} onChange={handleSecondsChange} />
+              <Input type="number" label="m" value={inputMinutes} onChange={handleMinutesChange} />
+              <Input type="number" label="s" value={inputSeconds} onChange={handleSecondsChange} />
             </div>
             Set Rest Time:
             <div className="input-container">
-              <Input type="number" label="Rest Minutes" value={restMinutes} onChange={handleRestMinutesChange} />
-              <Input type="number" label="Rest Seconds" value={restSeconds} onChange={handleRestSecondsChange} />
+              <Input type="number" label="m" value={restMinutes} onChange={handleRestMinutesChange} />
+              <Input type="number" label="s" value={restSeconds} onChange={handleRestSecondsChange} />
             </div>
           </>
         )}
@@ -76,8 +77,8 @@ const AddTimerView = () => {
           <>
             Set Time:
             <div className="input-container">
-              <Input type="number" label="Minutes" value={inputMinutes} onChange={handleMinutesChange} />
-              <Input type="number" label="Seconds" value={inputSeconds} onChange={handleSecondsChange} />
+              <Input type="number" label="m" value={inputMinutes} onChange={handleMinutesChange} />
+              <Input type="number" label="s" value={inputSeconds} onChange={handleSecondsChange} />
             </div>
           </>
         )}
@@ -89,8 +90,8 @@ const AddTimerView = () => {
         )}
       </Panel>
 
-      <button onClick={addTimer}>Add Timer</button>
-      <Link to="/" className="home-link">Back to Workout Queue</Link>
+      <button onClick={addTimer}>Add Timer</button><br />
+      <Link to="/" className="home-link">Back to Workout</Link>
     </Panel>
   );
 };

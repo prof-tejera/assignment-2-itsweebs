@@ -53,6 +53,3 @@ const App = () => {
 };
 
 export default App;
-
-//add array for timers and pass it to workoutqueue view & addtimer view
-//create function add to array
