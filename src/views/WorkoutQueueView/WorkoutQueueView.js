@@ -111,8 +111,8 @@ const WorkoutQueueView = () => {
       </div>
       <h2>Workout Queue</h2>
       {
-        state.timers.map((timer) => (
-          <div key={timer.id} className="timer-item">
+        state.timers.map((timer, index) => (
+          <div key={timer.id} className={`timer-item ${index === state.currentTimerIndex && state.isWorkoutRunning ? 'active-timer' : ''}`}>
             <div className="timer-info">
               <div className="timer-type">{timer.type}</div>
               <div className="timer-details">

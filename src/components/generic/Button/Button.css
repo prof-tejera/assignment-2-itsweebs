@@ -51,12 +51,12 @@
 
 .button-remove {
     color: black;
-    background-color: #eee;
+    background-color: transparent;
 }
 
 .button-remove:hover {
     color: #f8446e;
-    background-color: #eee;
+    background-color: transparent;
 }
 
 .button-add-timer {

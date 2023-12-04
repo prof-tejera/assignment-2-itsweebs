@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import DocumentComponent from "../../components/documentation/DocumentComponent";
 
-import Loading from "../../components/generic/Loading";
 import Panel from "../../components/generic/Panel/Panel";
 import Button from "../../components/generic/Button/Button";
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
@@ -19,10 +18,6 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const Title = styled.div`
-  font-size: 2rem;
-`;
-
 /**
  * You can document your components by using the DocumentComponent component
  */
@@ -30,19 +25,7 @@ const Documentation = () => {
   return (
     <Container>
       <div>
-        <Title>Documentation</Title>
-        <DocumentComponent
-          title="Loading spinner "
-          component={<Loading />}
-          propDocs={[
-            {
-              prop: "size",
-              description: "Changes the size of the loading spinner",
-              type: "string",
-              defaultValue: "medium",
-            },
-          ]}
-        />
+        <h2>Documentation</h2>
         <DocumentComponent
           title="Panel"
           component={<Panel className="control-panel">Sample Content</Panel>}
