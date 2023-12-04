@@ -59,14 +59,27 @@
     background-color: #eee;
 }
 
-.button-add {
+.button-add-timer {
     background-color: black;
     color: white;
-    width: 180px;
-    font-size: 20px;
+    width: 140px;
+    font-size: 16px;
+}
+
+.button-add-timer:hover {
+    background-color: #deff04;
+    color: black;
+}
+
+.button-add {
+    background-color: #deff04;
+    color: black;
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 8px;
 }
 
 .button-add:hover {
-    background-color: #deff04;
+    background-color: #b8d513;
     color: black;
 }

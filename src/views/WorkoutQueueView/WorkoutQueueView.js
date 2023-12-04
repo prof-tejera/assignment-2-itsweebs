@@ -121,7 +121,7 @@ const WorkoutQueueView = () => {
       </div>
     ))
   }
-  <Button className="button-add" label="Add Timer" onClick={() => navigate('/add')} />
+  <Button className="button-add-timer" label="Add Timer" onClick={() => navigate('/add')} />
     </div >
   );
 };
