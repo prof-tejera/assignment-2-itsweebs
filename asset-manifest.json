@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/assignment-2-itsweebs/static/css/main.7f5cb0f1.css",
+    "main.js": "/assignment-2-itsweebs/static/js/main.f9de985a.js",
+    "index.html": "/assignment-2-itsweebs/index.html",
+    "main.7f5cb0f1.css.map": "/assignment-2-itsweebs/static/css/main.7f5cb0f1.css.map",
+    "main.f9de985a.js.map": "/assignment-2-itsweebs/static/js/main.f9de985a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7f5cb0f1.css",
+    "static/js/main.f9de985a.js"
+  ]
+}
