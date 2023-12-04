@@ -64,6 +64,9 @@ const WorkoutQueueView = () => {
     setRemainingTime(0);
   };
 
+  //determine if the current timer is last in queue
+  const isLastTimer = state.currentTimerIndex >= state.timers.length - 1;
+
   return (
     <div className="container">
       <div className="workout">
@@ -74,12 +77,35 @@ const WorkoutQueueView = () => {
         <DisplayText className="additional-text" text={!state.isWorkoutRunning && remainingTime === 0 && state.timers.length > 0 ? 'Done!' : ''} />
         <Panel className="control-panel">
           <div className="start-button-container">
-            <Button className="button-start" label={state.isWorkoutRunning ? "Pause" : "Start"} icon={state.isWorkoutRunning ? faPause : faPlay} onClick={handlePauseResume} disabled={state.isWorkoutComplete} />
+            <Button
+              className="button-start"
+              label={state.isWorkoutRunning ? "Pause" : "Start"}
+              icon={state.isWorkoutRunning ? faPause : faPlay}
+              onClick={handlePauseResume}
+              disabled={state.isWorkoutComplete}
+            />
           </div>
           <div className="buttons-container">
-            <Button className="button-reset" label="Reset" icon={faRedo} onClick={handleReset} disabled={state.isWorkoutComplete} />
-            <Button className="button-forward" label="Forward" icon={faStepForward} onClick={handleFastForward} disabled={state.isWorkoutComplete} />
-            <Button className="button-end" label="End" icon={faStop} onClick={handleEndWorkout} disabled={state.isWorkoutComplete} />
+            <Button
+              className="button-reset"
+              label="Reset"
+              icon={faRedo}
+              onClick={handleReset}
+            />
+            <Button
+              className="button-forward"
+              label="Forward"
+              icon={faStepForward}
+              onClick={handleFastForward}
+              disabled={isLastTimer || state.isWorkoutComplete}
+            />
+            <Button
+              className="button-end"
+              label="End"
+              icon={faStop}
+              onClick={handleEndWorkout}
+              disabled={state.isWorkoutComplete}
+            />
           </div>
         </Panel>
       </div>
